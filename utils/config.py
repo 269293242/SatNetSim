@@ -83,3 +83,14 @@ DIFS_DURATION = SIFS_DURATION + (2 * SLOT_DURATION)
 CW_MIN = 31  # initial contention window size
 ACK_TIMEOUT = ACK_PACKET_LENGTH / BIT_RATE * 1e6 + SIFS_DURATION + 50  # maximum waiting time for ACK, in us
 MAX_RETRANSMISSION_ATTEMPT = 5
+
+# ------------------- satellite network parameters ------------------ #
+SATELLITE_MODE = False
+EARTH_RADIUS = 6371e3  # meters
+MU_EARTH = 3.986e14
+SATELLITE_ALTITUDE = 550e3  # meters
+SOLAR_CONSTANT = 1361  # W/m^2
+SOLAR_PANEL_AREA = 2  # m^2
+SOLAR_PANEL_EFFICIENCY = 0.3
+BATTERY_CAPACITY = 2e4  # Joule
+RAIN_ATTENUATION = 0.02  # dB/km

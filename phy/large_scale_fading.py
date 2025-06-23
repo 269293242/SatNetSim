@@ -156,3 +156,18 @@ def maximum_communication_range():
     max_comm_range = (c * (10 ** (path_loss_db / (alpha * 10)))) / (4 * math.pi * fc)
 
     return max_comm_range
+
+def doppler_shift(relative_speed, frequency=config.CARRIER_FREQUENCY):
+    """Calculate Doppler shift caused by relative speed."""
+    return (relative_speed / config.LIGHT_SPEED) * frequency
+
+
+def propagation_delay(distance):
+    """Calculate propagation delay between two nodes."""
+    return distance / config.LIGHT_SPEED
+
+
+def atmospheric_attenuation(distance):
+    """Simple model of atmospheric attenuation including rain fade."""
+    rain_loss_db = config.RAIN_ATTENUATION * distance / 1000  # dB per km
+    return 10 ** (-(rain_loss_db / 10))

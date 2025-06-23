@@ -13,6 +13,8 @@ from visualization.visualizer import SimulationVisualizer
 """
 
 if __name__ == "__main__":
+    # Enable satellite mode for LEO simulation
+    config.SATELLITE_MODE = True
     # Simulation setup
     env = simpy.Environment()
     channel_states = {i: simpy.Resource(env, capacity=1) for i in range(config.NUMBER_OF_DRONES)}

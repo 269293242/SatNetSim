@@ -1,6 +1,7 @@
 import random
 from phy.channel import Channel
 from entities.drone import Drone
+from entities.satellite import Satellite
 from simulator.metrics import Metrics
 from mobility import start_coords
 from utils import config
@@ -46,7 +47,10 @@ class Simulator:
         # NOTE: if distributed optimization is adopted, remember to comment this to speed up simulation
         # self.central_controller = CentralController(self)
 
-        start_position = start_coords.get_random_start_point_3d(seed)
+        if config.SATELLITE_MODE:
+            start_position = start_coords.get_orbit_start_point(seed)
+        else:
+            start_position = start_coords.get_random_start_point_3d(seed)
 
         self.drones = []
         for i in range(n_drones):
@@ -56,9 +60,13 @@ class Simulator:
                 speed = 10
 
             print('UAV: ', i, ' initial location is at: ', start_position[i], ' speed is: ', speed)
-            drone = Drone(env=env, node_id=i, coords=start_position[i], speed=speed,
-                          inbox=self.channel.create_inbox_for_receiver(i), simulator=self)
-            self.drones.append(drone)
+            if config.SATELLITE_MODE:
+                node = Satellite(env=env, node_id=i, coords=start_position[i], speed=speed,
+                                  inbox=self.channel.create_inbox_for_receiver(i), simulator=self)
+            else:
+                node = Drone(env=env, node_id=i, coords=start_position[i], speed=speed,
+                             inbox=self.channel.create_inbox_for_receiver(i), simulator=self)
+            self.drones.append(node)
 
         scatter_plot(self)
 
